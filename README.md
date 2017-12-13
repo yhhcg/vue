@@ -1,6 +1,6 @@
-# music
+# vue-music
 
-> A Vue.js project
+> vue-cli
 
 ## Build Setup
 
@@ -8,7 +8,7 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:12
 npm run dev
 
 # build for production with minification

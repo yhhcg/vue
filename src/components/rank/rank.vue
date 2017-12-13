@@ -1,6 +1,6 @@
 <template>
   <div class="rank">
-    <div class="toplist">
+    <Scroll class="toplist" :data="topList">
       <ul>
         <li class="item" v-for="item in topList">
           <div class="icon">
@@ -17,11 +17,12 @@
       <div class="loading-container" v-show="!topList.length">
         <loading></loading>
       </div>
-    </div>
+    </Scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import Scroll from 'base/scroll/scroll'
   import {getTopList} from 'api/rank'
   import {ERR_OK} from 'api/config'
   import Loading from 'base/loading/loading'
@@ -45,7 +46,8 @@
       }
     },
     components: {
-      Loading
+      Loading,
+      Scroll
     }
   }
 </script>
