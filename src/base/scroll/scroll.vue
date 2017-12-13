@@ -12,6 +12,14 @@
       data: {
         type: Array,
         default: null
+      },
+      probeType: {
+        type: Number,
+        default: 1
+      },
+      listenScroll: {
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -24,10 +32,24 @@
         if (!this.$refs.wrapper) {
           return
         }
-        this.scroll = new BScroll(this.$refs.wrapper)
+        this.scroll = new BScroll(this.$refs.wrapper, {
+          probeType: this.probeType
+        })
+        if (this.listenScroll) {
+          let self = this
+          this.scroll.on('scroll', (pos) => {
+            self.$emit('scroll', pos)
+          })
+        }
       },
       refresh() {
         this.scroll && this.scroll.refresh()
+      },
+      scrollTo() {
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+      },
+      scrollToElement() {
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
     watch: {

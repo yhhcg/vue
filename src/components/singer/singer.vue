@@ -1,8 +1,9 @@
 <template>
-  <div class="singer">歌手</div>
+  <div class="singer"><list-view :data="singerList"></list-view></div>
 </template>
 
 <script type="text/ecmascript-6">
+  import ListView from 'base/listview/listview'
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
 
@@ -29,7 +30,7 @@
       _normalizeSinger(list) {
         let map = {
           hot: {
-            tilt: HOT_NAME,
+            title: HOT_NAME,
             items: []
           }
         }
@@ -38,7 +39,7 @@
             map.hot.items.push({
               id: item.Fsinger_mid,
               name: item.Fsinger_name,
-              avator: `http://y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
+              avatar: `http://y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
             })
           }
           const key = item.Findex
@@ -50,12 +51,28 @@
             map[key].items.push({
               id: item.Fsinger_mid,
               name: item.Fsinger_name,
-              avator: `http://y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
+              avatar: `http://y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
             })
           }
         })
-        console.log(map)
+        let ret = []
+        let hot = []
+        for (let key in map) {
+          let val = map[key]
+          if (val.title.match(/[a-zA-Z]/)) {
+            ret.push(val)
+          } else if (val.title === HOT_NAME) {
+            hot.push(val)
+          }
+        }
+        ret.sort((a, b) => {
+          return a.title.charCodeAt(0) - b.title.charCodeAt(0)
+        })
+        return hot.concat(ret)
       }
+    },
+    components: {
+      ListView
     }
   }
 </script>
