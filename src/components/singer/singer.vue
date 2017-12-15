@@ -1,5 +1,8 @@
 <template>
-  <div class="singer"><list-view :data="singerList"></list-view></div>
+  <div class="singer">
+    <list-view @select="selectSinger" :data="singerList"></list-view>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -20,6 +23,11 @@
       this._getSingerList()
     },
     methods: {
+      selectSinger(singer) {
+        this.$router.push({
+          path: `/singer/${singer.id}`
+        })
+      },
       _getSingerList() {
         getSingerList().then((res) => {
           if (res.code === ERR_OK) {
@@ -48,12 +56,12 @@
               title: key,
               items: []
             }
-            map[key].items.push({
-              id: item.Fsinger_mid,
-              name: item.Fsinger_name,
-              avatar: `http://y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
-            })
           }
+          map[key].items.push({
+            id: item.Fsinger_mid,
+            name: item.Fsinger_name,
+            avatar: `http://y.gtimg.cn/music/photo_new/T001R150x150M000${item.Fsinger_mid}.jpg?max_age=2592000`
+          })
         })
         let ret = []
         let hot = []
