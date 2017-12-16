@@ -14,7 +14,7 @@ export function getRecommend () {
   return axios.get(url, {
     params: data
   }).then((res) => {
-    return Promise.resolve(res.data)
+    return Promise.resolve(res.data) // 创建一个已完成的promise    完成处理函数接收res.data作为getRecommend().then()的参数
   })
 }
 
